@@ -2,7 +2,7 @@ package tn.esprit.spring;
 
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,19 +19,19 @@ public class EntrepriseServiceImplTest {
     @Autowired
     IEntrepriseService entrepriseService;
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testAjouterEntreprise (){
         Entreprise e = new Entreprise("esprit","ghazela");
         Entreprise entrepriseAdded = this.entrepriseService.ajouterEntreprise(e);
         Assert.assertEquals(e.getName(), entrepriseAdded.getName());
 
     }
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetEntreprise() {
         Assert.assertNotNull(this.entrepriseService.getEntrepriseById(1));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDeleteEntreprise() {
         Assert.assertNotNull(this.entrepriseService.getEntrepriseById(1));
     }
