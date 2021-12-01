@@ -8,12 +8,13 @@
 		<version>2.3.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.esprit.spring</groupId>
+	<groupId>tn.esprit.spring</groupId>
 	<artifactId>Timesheet</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 	<name>Timesheet-spring-boot-core-data-jpa-mvc-REST</name>
 	<description>Timesheet-spring-boot-core-data-jpa-mvc-REST</description>
+
 
 	<properties>
 		<java.version>1.8</java.version>
