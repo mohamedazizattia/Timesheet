@@ -89,7 +89,7 @@ public class Employe implements Serializable {
 		l.info("in getNom");
 		l.debug("le nom est "+nom);
 		if(nom==null)
-			l.warn("le nom est null");
+			l.warn("le nom est null, attention");
 		else
 			l.info("nom recuperé avec succés");
 		return nom;
