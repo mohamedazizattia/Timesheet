@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,18 +32,39 @@ public class EmployeServiceImpl implements IEmployeService {
 	ContratRepository contratRepoistory;
 	@Autowired
 	TimesheetRepository timesheetRepository;
+	private static final Logger l = LogManager.getLogger(EmployeServiceImpl.class);
+
 
 	public int ajouterEmploye(Employe employe) {
-		employeRepository.save(employe);
-		return employe.getId();
+		try{
+			l.info("In ajouterEmploye() : ");
+			l.debug("je vais lancer l'ajout: ");
+			employeRepository.save(employe);
+			l.info("Ajout avec succés ");
+
+			return employe.getId();}
+		catch (Exception e)
+		{
+			l.error(e.getMessage());
+			return -1;
+		}
 	}
 
 	
 	
 	public void mettreAjourEmailByEmployeId(String email, int employeId) {
+		try{
+		l.info("In mettreAjourEmailByEmployeId() : ");
 		Employe employe = employeRepository.findById(employeId).get();
+		l.debug("je vais lancer le mettre à jour de l'email: ");
+
 		employe.setEmail(email);
 		employeRepository.save(employe);
+		l.info("Ajout avec succés "); }
+		catch (Exception e)
+		{	l.info(" le mettre à jour a echoué");
+			l.error(e.getMessage());
+			}
 	}
 	
 	public void affecterEmployeADepartement(int employeId, int depId) {
@@ -62,19 +85,31 @@ public class EmployeServiceImpl implements IEmployeService {
 	@Transactional
 	//supprimer l'employe du departement
 	public void desaffecterEmployeDuDepartement(int employeId, int depId)
-	{
+	{	try {
+		l.info("in desaffecterEmployeDuDepartement");
 		Departement dep = deptRepoistory.findById(depId).get();
 
 		int employeNb = dep.getEmployes().size();
+		l.info("on commence le parcours du liste des employé");
 		for(int index = 0; index < employeNb; index++){
+			l.debug("l'employé avec l'id"+dep.getEmployes().get(index).getId());
 			if(dep.getEmployes().get(index).getId() == employeId){
 				dep.getEmployes().remove(index);
 			}
+
 		}
+
+	}catch (Exception e){
+		l.error(e.getMessage());
+	}
 	}
 
 	public int ajouterContrat(Contrat contrat) {
+		l.info("in Ajout Contrat");
+
 		contratRepoistory.save(contrat);
+		l.debug("le contrat ajouté est"+contrat.getTypeContrat());
+		l.info("ajout avec succés");
 		return contrat.getReference();
 	}
 
@@ -105,10 +140,11 @@ public class EmployeServiceImpl implements IEmployeService {
 		employeRepository.delete(employe);
 	}
 
-	public void deleteContratById(int contratId) {
+	public int deleteContratById(int contratId) {
+		int size = contratRepoistory.getAllI().size();
 		Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
 		contratRepoistory.delete(contratManagedEntity);
-
+		return  size-contratRepoistory.getAllI().size();
 	}
 
 	public int getNombreEmployeJPQL() {

@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import tn.esprit.spring.services.EmployeServiceImpl;
 
 
 @Entity
@@ -51,8 +54,9 @@ public class Employe implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy="employe")
 	private List<Timesheet> timesheets;
-	
-	
+
+	private static final Logger l = LogManager.getLogger(Employe.class);
+
 	public Employe() {
 		super();
 	}
@@ -82,6 +86,12 @@ public class Employe implements Serializable {
 	}
 
 	public String getNom() {
+		l.info("in getNom");
+		l.debug("le nom est "+nom);
+		if(nom==null)
+			l.warn("le nom est null");
+		else
+			l.info("nom recuperé avec succés");
 		return nom;
 	}
 
