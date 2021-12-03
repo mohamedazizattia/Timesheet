@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,21 +33,36 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	TimesheetRepository timesheetRepository;
 	@Autowired
 	EmployeRepository employeRepository;
-	
+	private static final Logger l = LogManager.getLogger(TimesheetServiceImpl.class);
+
 	public int ajouterMission(Mission mission) {
+		l.info("In ajouterMission() : ");
+
 		missionRepository.save(mission);
+		l.info("avec succes() : ");
+
 		return mission.getId();
 	}
     
-	public void affecterMissionADepartement(int missionId, int depId) {
+	public int affecterMissionADepartement(int missionId, int depId) {
 		Mission mission = missionRepository.findById(missionId).get();
 		Departement dep = deptRepoistory.findById(depId).get();
 		mission.setDepartement(dep);
 		missionRepository.save(mission);
+		l.info("  "+missionId+" added ") ;
+		return mission.getId() ;
 		
 	}
 
-	public void ajouterTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin) {
+	public int ajouterTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin) {
+		l.info("In ajouter() : ");
+		l.warn("mission unique");
+
+		int a =timesheetRepository.getAllI().size();
+		if( a==5000){
+			l.error("msg d'erreur");
+
+		}
 		TimesheetPK timesheetPK = new TimesheetPK();
 		timesheetPK.setDateDebut(dateDebut);
 		timesheetPK.setDateFin(dateFin);
@@ -54,9 +71,11 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		
 		Timesheet timesheet = new Timesheet();
 		timesheet.setTimesheetPK(timesheetPK);
+		l.info("timesheet par default non valide");
 		timesheet.setValide(false); //par defaut non valide
 		timesheetRepository.save(timesheet);
-		
+		return 		timesheetRepository.getAllI().size()-a;
+
 	}
 
 	

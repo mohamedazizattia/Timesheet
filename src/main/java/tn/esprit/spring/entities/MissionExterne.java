@@ -19,8 +19,8 @@ public class MissionExterne extends Mission {
 	}
 
 
-	public MissionExterne(String name, String description, String emailFacturation, float tauxJournalierMoyen) {
-		super(name, description);
+	public MissionExterne(int id ,String name, String description, String emailFacturation, float tauxJournalierMoyen) {
+		super(id,name, description);
 		this.emailFacturation = emailFacturation;
 		this.tauxJournalierMoyen = tauxJournalierMoyen;
 	}

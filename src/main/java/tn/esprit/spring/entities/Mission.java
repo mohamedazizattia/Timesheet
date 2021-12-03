@@ -33,9 +33,10 @@ public class Mission implements Serializable {
 		super();
 	}
 
-	public Mission(String name, String description){
+	public Mission(int id ,String name, String description){
 		this.name = name;
 		this.description = description;
+		this.id=id;
 	}
 	
 
