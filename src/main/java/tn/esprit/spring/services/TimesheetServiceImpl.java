@@ -63,6 +63,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			l.error("msg d'erreur");
 
 		}
+
 		TimesheetPK timesheetPK = new TimesheetPK();
 		timesheetPK.setDateDebut(dateDebut);
 		timesheetPK.setDateFin(dateFin);
@@ -113,6 +114,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId) {
+
 		return timesheetRepository.findAllMissionByEmployeJPQL(employeId);
 	}
 
